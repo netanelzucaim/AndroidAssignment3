@@ -90,7 +90,7 @@ class StudentsRecyclerViewActivity : AppCompatActivity() {
         init {
             nameTextView = itemView.findViewById(R.id.student_row_name_text_view)
             idTextView = itemView.findViewById(R.id.student_row_id_text_view)
-            checkBox = itemView.findViewById(R.id.check_box)
+            checkBox = itemView.findViewById(R.id.student_row_check_box)
 
             checkBox?.apply {
                 setOnClickListener { view ->
