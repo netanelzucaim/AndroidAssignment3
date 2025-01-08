@@ -19,6 +19,7 @@ class StudentsListFragment : Fragment() {
 
     var students: MutableList<Student>? = null
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -26,7 +27,10 @@ class StudentsListFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_students_list, container, false)
 
-        students = Model.shared.students
+
+        val student = Student(name = "John Doe", id = "12345", phone = "555-1234", address = "123 Main St", isChecked = false)
+
+       students = Model.shared.students
 
         val recyclerView: RecyclerView = view.findViewById(R.id.students_list_fragment_recycler_view)
         recyclerView.setHasFixedSize(true)
@@ -41,10 +45,10 @@ class StudentsListFragment : Fragment() {
             }
 
             override fun onItemClick(student: Student?) {
-                student?.let {
-                    val action = StudentsListFragmentDirections.actionStudentsListFragmentToStudentDetailsFragment(it.name)
-                    Navigation.findNavController(view).navigate(action)
-                }
+
+                val action = StudentsListFragmentDirections.actionStudentsListFragmentToStudentDetailsFragment(student!!)
+                Navigation.findNavController(view).navigate(action)
+
             }
         }
         recyclerView.adapter = adapter

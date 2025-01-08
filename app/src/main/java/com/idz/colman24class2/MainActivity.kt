@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
             else -> {
               // let the onOptionsItemSelected in editStudentFragment to handle it
                 if (item.itemId == R.id.editStudentFragment) {
-                    return true
+                    return false
                 } else {
                     navController?.let { NavigationUI.onNavDestinationSelected(item, it) }
                 }

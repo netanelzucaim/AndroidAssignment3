@@ -12,13 +12,15 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.TextView
 import androidx.navigation.Navigation
+import com.idz.colman24class2.model.Model
+import com.idz.colman24class2.model.Student
 
 
 class AddStudentFragment : Fragment() {
     var saveButton: Button? = null
     var cancelButton: Button? = null
-    var nameTextField: EditText? = null
-    var idTextField: EditText? = null
+    var nameEditText: EditText? = null
+    var idEditText: EditText? = null
     var savedTextField: TextView? = null
     var phoneEditText: EditText? = null
     var addressEditText: EditText? = null
@@ -48,15 +50,17 @@ class AddStudentFragment : Fragment() {
     private fun setupView(view: View?) {
         saveButton = view?.findViewById(R.id.add_student_save_button)
         cancelButton = view?.findViewById(R.id.add_student_cancel_button)
-        nameTextField = view?.findViewById(R.id.add_student_name_edit_text)
-        idTextField = view?.findViewById(R.id.add_student_id_edit_text)
+        nameEditText = view?.findViewById(R.id.add_student_name_edit_text)
+        idEditText = view?.findViewById(R.id.add_student_id_edit_text)
         savedTextField = view?.findViewById(R.id.add_student_save_message_text_view)
         phoneEditText = view?.findViewById(R.id.add_student_phone_edit_text)
         addressEditText = view?.findViewById(R.id.add_student_address_edit_text)
         enabledCheckBox = view?.findViewById(R.id.add_student_enabled_check_box)
     }
     private fun onSaveClicked(view: View) {
-        savedTextField?.text = "${nameTextField?.text} ${idTextField?.text} is saved...!!!"
+        val student = Student(nameEditText?.text.toString(), idEditText?.text.toString(),phoneEditText?.text.toString(),addressEditText?.text.toString(),enabledCheckBox!!.isChecked )
+        Model.shared.students.add(student)
+        savedTextField?.text = "${nameEditText?.text} ${idEditText?.text} is saved...!!!"
     }
     private fun onCancelClick(view: View) {
         Navigation.findNavController(view).popBackStack()
