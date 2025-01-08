@@ -3,12 +3,15 @@ package com.idz.colman24class2
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.TextView
+import androidx.navigation.Navigation
 
 
 class AddStudentFragment : Fragment() {
@@ -21,6 +24,15 @@ class AddStudentFragment : Fragment() {
     var addressEditText: EditText? = null
     var enabledCheckBox: CheckBox? = null
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
+        super.onCreateOptionsMenu(menu, inflater)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,7 +59,7 @@ class AddStudentFragment : Fragment() {
         savedTextField?.text = "${nameTextField?.text} ${idTextField?.text} is saved...!!!"
     }
     private fun onCancelClick(view: View) {
-//TODO
+        Navigation.findNavController(view).popBackStack()
     }
 
 }

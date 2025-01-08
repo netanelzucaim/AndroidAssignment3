@@ -3,30 +3,19 @@ package com.idz.colman24class2
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
+import androidx.navigation.ui.NavigationUI
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [EditStudentFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class EditStudentFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    var name: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+        name = arguments?.let { EditStudentFragmentArgs.fromBundle(it).studentName }
+
     }
 
     override fun onCreateView(
@@ -34,26 +23,27 @@ class EditStudentFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_student, container, false)
+        val view = inflater.inflate(R.layout.fragment_edit_student, container, false)
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment EditStudentFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            EditStudentFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
+
+//
+//
+//    private fun setupView(view: View?) {
+//        saveButton = view?.findViewById(R.id.add_student_save_button)
+//        cancelButton = view?.findViewById(R.id.add_student_cancel_button)
+//        nameTextField = view?.findViewById(R.id.add_student_name_edit_text)
+//        idTextField = view?.findViewById(R.id.add_student_id_edit_text)
+//        savedTextField = view?.findViewById(R.id.add_student_save_message_text_view)
+//        phoneEditText = view?.findViewById(R.id.add_student_phone_edit_text)
+//        addressEditText = view?.findViewById(R.id.add_student_address_edit_text)
+//        enabledCheckBox = view?.findViewById(R.id.add_student_enabled_check_box)
+//    }
+//    private fun onSaveClicked(view: View) {
+//        savedTextField?.text = "${nameTextField?.text} ${idTextField?.text} is saved...!!!"
+//    }
+//    private fun onCancelClick(view: View) {
+//        Navigation.findNavController(view).popBackStack()
+//    }
 }

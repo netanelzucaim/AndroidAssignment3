@@ -42,17 +42,17 @@ class StudentsListFragment : Fragment() {
 
             override fun onItemClick(student: Student?) {
                 student?.let {
-//                    val action = StudentsListFragmentDirections.action_studentsListFragment_to_studentDetailsFragment(it.name)
-                    Navigation.findNavController(view).navigate(R.id.action_studentsListFragment_to_studentDetailsFragment)
+                    val action = StudentsListFragmentDirections.actionStudentsListFragmentToStudentDetailsFragment(it.name)
+                    Navigation.findNavController(view).navigate(action)
                 }
             }
         }
         recyclerView.adapter = adapter
 
-//        val imageButton: ImageButton? = view?.findViewById(R.id.students_list_add_student_button)
-//
-//        val action = StudentsListFragmentDirections.actionGlobalAddStudentFragment()
-//        imageButton?.setOnClickListener(Navigation.createNavigateOnClickListener(action))
+        val imageButton: ImageButton? = view?.findViewById(R.id.students_list_add_student_button)
+
+           val action = StudentsListFragmentDirections.actionGlobalAddStudentFragment()
+        imageButton?.setOnClickListener(Navigation.createNavigateOnClickListener(action))
 
         return view
     }
