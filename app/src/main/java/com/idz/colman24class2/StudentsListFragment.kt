@@ -14,6 +14,10 @@ import com.idz.colman24class2.adapter.StudentsRecyclerAdapter
 import com.idz.colman24class2.model.Model
 import com.idz.colman24class2.model.Student
 
+interface OnItemClickListener {
+    fun onItemClick(position: Int)
+    fun onItemClick(student: Student?)
+}
 
 class StudentsListFragment : Fragment() {
 
@@ -39,7 +43,7 @@ class StudentsListFragment : Fragment() {
         recyclerView.layoutManager = layoutManager
 
         val adapter = StudentsRecyclerAdapter(students)
-        adapter.listener = object : OnItemClickListener {
+        adapter.listener = object : OnItemClickListener{
             override fun onItemClick(position: Int) {
                 Log.d("TAG", "On click Activity listener on position $position")
             }
