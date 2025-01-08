@@ -56,12 +56,6 @@ class StudentsListFragment : Fragment() {
             }
         }
         recyclerView.adapter = adapter
-
-        val imageButton: ImageButton? = view?.findViewById(R.id.students_list_add_student_button)
-
-           val action = StudentsListFragmentDirections.actionGlobalAddStudentFragment()
-        imageButton?.setOnClickListener(Navigation.createNavigateOnClickListener(action))
-
         return view
     }
 
