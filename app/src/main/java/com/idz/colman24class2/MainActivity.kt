@@ -15,6 +15,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
     var navController: NavController? = null
@@ -45,6 +46,8 @@ class MainActivity : AppCompatActivity() {
                 navController = it
             )
         }
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_bar)
+        navController?.let { NavigationUI.setupWithNavController(bottomNavigationView, it) }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
