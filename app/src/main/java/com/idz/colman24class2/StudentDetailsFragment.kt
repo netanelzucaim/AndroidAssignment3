@@ -40,6 +40,7 @@ class StudentDetailsFragment : Fragment() {
         view.findViewById<TextView>(R.id.students_details_phone_text_view).text = student!!.phone
         view.findViewById<TextView>(R.id.students_details_address_text_view).text = student!!.address
         view.findViewById<CheckBox>(R.id.students_details_enabled_check_box).isChecked = student!!.isChecked
+        view.findViewById<TextView>(R.id.students_details_date_of_birth_text_view).text = student!!.dateOfBirth.toString()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

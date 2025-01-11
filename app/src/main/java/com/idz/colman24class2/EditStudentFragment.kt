@@ -1,10 +1,8 @@
 package com.idz.colman24class2
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -12,7 +10,6 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.TextView
 import androidx.navigation.Navigation
-import androidx.navigation.ui.NavigationUI
 import com.idz.colman24class2.model.Model
 import com.idz.colman24class2.model.Student
 
@@ -27,6 +24,7 @@ class EditStudentFragment : Fragment() {
     var phoneEditText: EditText? = null
     var addressEditText: EditText? = null
     var enabledCheckBox: CheckBox? = null
+    var dateOfBirthEditText: EditText? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,29 +42,21 @@ class EditStudentFragment : Fragment() {
         saveButton?.setOnClickListener(::onSaveClicked)
         cancelButton?.setOnClickListener(::onCancelClick)
         deleteButton?.setOnClickListener(::onDeleteClicked)
+
+        dateOfBirthEditText?.setOnClickListener {
+            showDatePickerDialog()
+        }
         return view
     }
 
-
-//
-//
-//    private fun setupView(view: View?) {
-//        saveButton = view?.findViewById(R.id.add_student_save_button)
-//        cancelButton = view?.findViewById(R.id.add_student_cancel_button)
-//        nameTextField = view?.findViewById(R.id.add_student_name_edit_text)
-//        idTextField = view?.findViewById(R.id.add_student_id_edit_text)
-//        savedTextField = view?.findViewById(R.id.add_student_save_message_text_view)
-//        phoneEditText = view?.findViewById(R.id.add_student_phone_edit_text)
-//        addressEditText = view?.findViewById(R.id.add_student_address_edit_text)
-//        enabledCheckBox = view?.findViewById(R.id.add_student_enabled_check_box)
-//    }
     private fun onSaveClicked(view: View) {
     val updatedStudent = Student(
         nameEditText?.text.toString(),
         idEditText?.text.toString(),
         phoneEditText?.text.toString(),
         addressEditText?.text.toString(),
-        enabledCheckBox?.isChecked ?: false
+        enabledCheckBox?.isChecked ?: false,
+        dateOfBirthEditText?.text.toString()
     )
 
     val studentIndex = Model.shared.students.indexOfFirst { it.id == student?.id }
@@ -87,6 +77,24 @@ class EditStudentFragment : Fragment() {
         Navigation.findNavController(view).popBackStack()
         Navigation.findNavController(view).popBackStack()
     }
+
+    private fun showDatePickerDialog() {
+        val calendar = java.util.Calendar.getInstance()
+        val year = calendar.get(java.util.Calendar.YEAR)
+        val month = calendar.get(java.util.Calendar.MONTH)
+        val dayOfMonth = calendar.get(java.util.Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = android.app.DatePickerDialog(
+            requireContext(),
+            { _, selectedYear, selectedMonth, selectedDay ->
+                val selectedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
+                dateOfBirthEditText?.setText(selectedDate)
+            },
+            year, month, dayOfMonth
+        )
+        datePickerDialog.show()
+    }
+
     private fun setupView(view: View?) {
         saveButton = view?.findViewById(R.id.edit_student_save_button)
         cancelButton = view?.findViewById(R.id.edit_student_cancel_button)
@@ -96,11 +104,13 @@ class EditStudentFragment : Fragment() {
         phoneEditText = view?.findViewById(R.id.edit_student_phone_edit_text)
         addressEditText = view?.findViewById(R.id.edit_student_address_edit_text)
         enabledCheckBox = view?.findViewById(R.id.edit_student_enabled_check_box)
+        dateOfBirthEditText = view?.findViewById(R.id.edit_student_date_of_birth)
         nameEditText?.setText(student?.name)
         idEditText?.setText(student?.id)
         phoneEditText?.setText(student?.phone)
         addressEditText?.setText(student?.address)
         enabledCheckBox?.isChecked = student?.isChecked!!
+        dateOfBirthEditText?.setText(student?.dateOfBirth)
 
     }
 
