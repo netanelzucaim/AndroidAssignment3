@@ -1,6 +1,7 @@
 package com.idz.colman24class2.model
 
 import java.time.LocalDate
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.Random
 import kotlin.random.Random as randomKotlin
@@ -26,7 +27,8 @@ class Model private constructor() {
                 phone = "$i",
                 address = "$i",
                 isChecked = false,
-                dateOfBirth = generateRandomDateOfBirth()
+                dateOfBirth = generateRandomDateOfBirth(),
+                timeOfBirth = generateRandomTimeOfBirth()
             )
             students.add(student)
         }
@@ -40,5 +42,19 @@ class Model private constructor() {
         val dateOfBirth = LocalDate.of(year, month, day)
         val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
         return dateOfBirth.format(formatter)
+    }
+
+    private fun generateRandomTimeOfBirth(): String {
+        val random = Random()
+        val hour = 1 + random.nextInt(12)
+        val minute = random.nextInt(60)
+        val amPm = if (random.nextBoolean()) "AM" else "PM"
+
+        // Create a LocalTime object (ignoring the date)
+        val time = LocalTime.of(hour, minute)
+
+        // Format time as "hh:mm a" (AM/PM)
+        val formatter = DateTimeFormatter.ofPattern("hh:mm a")
+        return time.format(formatter).uppercase()  // Format in 12-hour with AM/PM
     }
 }

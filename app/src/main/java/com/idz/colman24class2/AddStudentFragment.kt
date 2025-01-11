@@ -1,6 +1,7 @@
 package com.idz.colman24class2
 
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,6 +17,7 @@ import androidx.navigation.Navigation
 import com.idz.colman24class2.model.Model
 import com.idz.colman24class2.model.Student
 import java.util.Calendar
+import java.util.Locale
 
 
 class AddStudentFragment : Fragment() {
@@ -28,6 +30,7 @@ class AddStudentFragment : Fragment() {
     var addressEditText: EditText? = null
     var enabledCheckBox: CheckBox? = null
     var dateOfBirthEditText: EditText? = null
+    var timeOfBirthEditText: EditText? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +54,9 @@ class AddStudentFragment : Fragment() {
         dateOfBirthEditText?.setOnClickListener {
             showDatePickerDialog()
         }
+        timeOfBirthEditText?.setOnClickListener {
+            showTimePickerDialog()
+        }
         return view
     }
     private fun setupView(view: View?) {
@@ -63,6 +69,7 @@ class AddStudentFragment : Fragment() {
         addressEditText = view?.findViewById(R.id.add_student_address_edit_text)
         enabledCheckBox = view?.findViewById(R.id.add_student_enabled_check_box)
         dateOfBirthEditText = view?.findViewById(R.id.add_student_date_of_birth)
+        timeOfBirthEditText = view?.findViewById(R.id.add_student_time_of_birth)
     }
 
     private fun showDatePickerDialog() {
@@ -82,8 +89,34 @@ class AddStudentFragment : Fragment() {
         datePickerDialog.show()
     }
 
+    private fun showTimePickerDialog() {
+        val calendar = java.util.Calendar.getInstance()
+        val hour = calendar.get(java.util.Calendar.HOUR_OF_DAY)  // Get the current hour in 24-hour format
+        val minute = calendar.get(java.util.Calendar.MINUTE)  // Get the current minute
+
+        val timePickerDialog = TimePickerDialog(
+            requireContext(),
+            { _, selectedHour, selectedMinute ->
+                // Format the time in 12-hour format with AM/PM
+                val formattedTime = formatTimeWithAmPm(selectedHour, selectedMinute)
+                timeOfBirthEditText?.setText(formattedTime)  // Set the formatted time to the EditText
+            },
+            hour, minute, false  // `false` for 12-hour format (AM/PM)
+        )
+        timePickerDialog.show()
+    }
+
+    private fun formatTimeWithAmPm(hour: Int, minute: Int): String {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.HOUR_OF_DAY, hour)
+        calendar.set(Calendar.MINUTE, minute)
+
+        val sdf = java.text.SimpleDateFormat("hh:mm a", Locale.getDefault())
+        return sdf.format(calendar.time)
+    }
+
     private fun onSaveClicked(view: View) {
-        val student = Student(nameEditText?.text.toString(), idEditText?.text.toString(),phoneEditText?.text.toString(),addressEditText?.text.toString(),enabledCheckBox!!.isChecked, dateOfBirthEditText?.text.toString() )
+        val student = Student(nameEditText?.text.toString(), idEditText?.text.toString(),phoneEditText?.text.toString(),addressEditText?.text.toString(),enabledCheckBox!!.isChecked, dateOfBirthEditText?.text.toString(), timeOfBirthEditText?.text.toString() )
         Model.shared.students.add(student)
         savedTextField?.text = "${nameEditText?.text} ${idEditText?.text} is saved...!!!"
     }
