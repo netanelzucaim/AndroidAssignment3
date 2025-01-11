@@ -3,6 +3,7 @@ package com.idz.colman24class2.model
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Random
+import kotlin.random.Random as randomKotlin
 
 class Model private constructor() {
 
@@ -14,13 +15,16 @@ class Model private constructor() {
     }
 
     init {
+
+        val names = arrayOf("Alice", "Bob", "Nati", "Charlie", "David", "Eva", "Noam")
         // Populate the students list with Parcelable Student objects
         for (i in 0..20) {
+            val randomName = names[randomKotlin.nextInt(names.size)]
             val student = Student(
-                name = "Name $i",
-                id = "Student ID: $i",
-                phone = "Phone: $i",
-                address = "Address: $i",
+                name = randomName,
+                id = (randomKotlin.nextInt(1, 101)).toString(),
+                phone = "$i",
+                address = "$i",
                 isChecked = false,
                 dateOfBirth = generateRandomDateOfBirth()
             )
