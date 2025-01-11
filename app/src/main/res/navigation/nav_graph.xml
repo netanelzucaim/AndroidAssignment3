@@ -39,7 +39,7 @@
     <fragment
         android:id="@+id/editStudentFragment"
         android:name="com.idz.colman24class2.EditStudentFragment"
-        android:label="fragment_edit_student"
+        android:label="edit student"
         tools:layout="@layout/fragment_edit_student" >
         <argument
             android:name="student"
