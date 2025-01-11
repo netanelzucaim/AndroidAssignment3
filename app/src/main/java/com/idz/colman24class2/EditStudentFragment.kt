@@ -55,24 +55,40 @@ class EditStudentFragment : Fragment() {
     }
 
     private fun onSaveClicked(view: View) {
-    val updatedStudent = Student(
-        nameEditText?.text.toString(),
-        idEditText?.text.toString(),
-        phoneEditText?.text.toString(),
-        addressEditText?.text.toString(),
-        enabledCheckBox?.isChecked ?: false,
-        dateOfBirthEditText?.text.toString(),
-        timeOfBirthEditText?.text.toString()
-    )
+        val updatedStudent = Student(
+            nameEditText?.text.toString(),
+            idEditText?.text.toString(),
+            phoneEditText?.text.toString(),
+            addressEditText?.text.toString(),
+            enabledCheckBox?.isChecked ?: false,
+            dateOfBirthEditText?.text.toString(),
+            timeOfBirthEditText?.text.toString()
+        )
 
-    val studentIndex = Model.shared.students.indexOfFirst { it.id == student?.id }
-    if (studentIndex != -1) {
-        Model.shared.students[studentIndex] = updatedStudent
+        val studentIndex = Model.shared.students.indexOfFirst { it.id == student?.id }
+        if (studentIndex != -1) {
+            Model.shared.students[studentIndex] = updatedStudent
+        }
+
+        val alertDialog = android.app.AlertDialog.Builder(requireContext())
+            .setTitle("Student Saved")
+            .setMessage("${nameEditText?.text} ${idEditText?.text} has been updated!")
+            .setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()  // Dismiss the dialog when OK is pressed
+            }
+            .create()
+
+        // Show the dialog
+        alertDialog.show()
+
+        // Use a Handler to wait a few seconds before navigating to the previous page
+        val handler = android.os.Handler()
+        handler.postDelayed({
+            // Navigate to the previous fragment (back to the previous page)
+            Navigation.findNavController(view).popBackStack()
+            Navigation.findNavController(view).popBackStack()
+        }, 2000)
     }
-    Navigation.findNavController(view).popBackStack()
-    Navigation.findNavController(view).popBackStack()
-
-}
     private fun onCancelClick(view: View) {
         Navigation.findNavController(view).popBackStack()
         Navigation.findNavController(view).popBackStack()
