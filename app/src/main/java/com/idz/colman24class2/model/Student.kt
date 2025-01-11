@@ -10,7 +10,8 @@ data public class Student(
     var phone: String,
     var address: String,
     var isChecked: Boolean,
-    var dateOfBirth: String
+    var dateOfBirth: String,
+    var timeOfBirth: String
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
@@ -18,6 +19,7 @@ data public class Student(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readByte() != 0.toByte(),
+        parcel.readString() ?: "",
         parcel.readString() ?: ""
     )
 
@@ -28,6 +30,7 @@ data public class Student(
         parcel.writeString(address)
         parcel.writeByte(if (isChecked) 1 else 0)
         parcel.writeString(dateOfBirth)
+        parcel.writeString(timeOfBirth)
     }
 
     override fun describeContents(): Int {
