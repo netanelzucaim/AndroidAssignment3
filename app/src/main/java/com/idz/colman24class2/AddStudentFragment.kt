@@ -1,5 +1,6 @@
 package com.idz.colman24class2
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import android.widget.TextView
 import androidx.navigation.Navigation
 import com.idz.colman24class2.model.Model
 import com.idz.colman24class2.model.Student
+import java.util.Calendar
 
 
 class AddStudentFragment : Fragment() {
@@ -25,6 +27,7 @@ class AddStudentFragment : Fragment() {
     var phoneEditText: EditText? = null
     var addressEditText: EditText? = null
     var enabledCheckBox: CheckBox? = null
+    var dateOfBirthEditText: EditText? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +48,9 @@ class AddStudentFragment : Fragment() {
         setupView(view)
         saveButton?.setOnClickListener(::onSaveClicked)
         cancelButton?.setOnClickListener(::onCancelClick)
+        dateOfBirthEditText?.setOnClickListener {
+            showDatePickerDialog()
+        }
         return view
     }
     private fun setupView(view: View?) {
@@ -56,9 +62,28 @@ class AddStudentFragment : Fragment() {
         phoneEditText = view?.findViewById(R.id.add_student_phone_edit_text)
         addressEditText = view?.findViewById(R.id.add_student_address_edit_text)
         enabledCheckBox = view?.findViewById(R.id.add_student_enabled_check_box)
+        dateOfBirthEditText = view?.findViewById(R.id.add_student_date_of_birth)
     }
+
+    private fun showDatePickerDialog() {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(
+            requireContext(),
+            { _, selectedYear, selectedMonth, selectedDay ->
+                val selectedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
+                dateOfBirthEditText?.setText(selectedDate)
+            },
+            year, month, dayOfMonth
+        )
+        datePickerDialog.show()
+    }
+
     private fun onSaveClicked(view: View) {
-        val student = Student(nameEditText?.text.toString(), idEditText?.text.toString(),phoneEditText?.text.toString(),addressEditText?.text.toString(),enabledCheckBox!!.isChecked )
+        val student = Student(nameEditText?.text.toString(), idEditText?.text.toString(),phoneEditText?.text.toString(),addressEditText?.text.toString(),enabledCheckBox!!.isChecked, dateOfBirthEditText?.text.toString() )
         Model.shared.students.add(student)
         savedTextField?.text = "${nameEditText?.text} ${idEditText?.text} is saved...!!!"
     }
