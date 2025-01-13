@@ -11,6 +11,7 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.navigation.Navigation
 import com.idz.colman24class2.model.Student
+import com.idz.colman24class2.databinding.FragmentStudentDetailsBinding
 
 class StudentDetailsFragment : Fragment() {
     var student: Student? = null

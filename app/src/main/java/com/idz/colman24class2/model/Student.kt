@@ -5,8 +5,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 @Entity
 data public class Student(
-    @PrimaryKey val name: String,
-    var id: String,
+    @PrimaryKey val id: String,
+    val name: String,
     var phone: String,
     var address: String,
     var isChecked: Boolean

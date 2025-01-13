@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.idz.colman24class2.adapter.StudentsRecyclerAdapter
 import com.idz.colman24class2.model.Model
 import com.idz.colman24class2.model.Student
+import android.widget.ProgressBar
+import com.idz.colman24class2.databinding.FragmentStudentsListBinding
 
 interface OnItemClickListener {
     fun onItemClick(position: Int)
@@ -20,44 +22,79 @@ interface OnItemClickListener {
 }
 
 class StudentsListFragment : Fragment() {
-
-    var students: MutableList<Student>? = null
+    private var students: List<Student>? = null
+    private var adapter: StudentsRecyclerAdapter? = null
+    private var binding: FragmentStudentsListBinding? = null
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding = FragmentStudentsListBinding.inflate(inflater, container, false)
+
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_students_list, container, false)
-
-
-        val student = Student(name = "John Doe", id = "12345", phone = "555-1234", address = "123 Main St", isChecked = false)
-
-       students = Model.shared.students
-
-        val recyclerView: RecyclerView = view.findViewById(R.id.students_list_fragment_recycler_view)
-        recyclerView.setHasFixedSize(true)
+//
+//       students = Model.shared.students
+//
+//        val recyclerView: RecyclerView = view.findViewById(R.id.students_list_fragment_recycler_view)
+//        recyclerView.setHasFixedSize(true)
+        binding?.recyclerView?.setHasFixedSize(true)
 
         val layoutManager = LinearLayoutManager(context)
-        recyclerView.layoutManager = layoutManager
+//        recyclerView.layoutManager = layoutManager
+//        val adapter = StudentsRecyclerAdapter(students)
+        binding?.recyclerView?.layoutManager = layoutManager
 
-        val adapter = StudentsRecyclerAdapter(students)
-        adapter.listener = object : OnItemClickListener{
+        adapter = StudentsRecyclerAdapter(students)
+
+
+        adapter?.listener = object : OnItemClickListener{
             override fun onItemClick(position: Int) {
                 Log.d("TAG", "On click Activity listener on position $position")
             }
 
             override fun onItemClick(student: Student?) {
+//
+//                val action = StudentsListFragmentDirections.actionStudentsListFragmentToStudentDetailsFragment(student!!)
+//                Navigation.findNavController(view).navigate(action)
 
-                val action = StudentsListFragmentDirections.actionStudentsListFragmentToStudentDetailsFragment(student!!)
-                Navigation.findNavController(view).navigate(action)
 
+                student?.let {
+                    val action = StudentsListFragmentDirections.actionStudentsListFragmentToStudentDetailsFragment(it)
+                    binding?.root?.let {
+                        Navigation.findNavController(it).navigate(action)
+                    }
+                }
             }
         }
-        recyclerView.adapter = adapter
-        return view
+//        recyclerView.adapter = adapter
+        binding?.recyclerView?.adapter = adapter
+
+//        val action = StudentsListFragmentDirections.actionGlobalAddStudentFragment()
+//        binding?.addStudentButton?.setOnClickListener(Navigation.createNavigateOnClickListener(action))
+        return binding?.root
     }
+
+
+override fun onResume() {
+    super.onResume()
+    getAllStudents()
+}
+override fun onDestroy() {
+    super.onDestroy()
+    binding = null
+}
+private fun getAllStudents() {
+    binding?.progressBar?.visibility = View.VISIBLE
+    Model.shared.getAllStudents {
+        this.students = it
+        adapter?.set(it)
+        adapter?.notifyDataSetChanged()
+        binding?.progressBar?.visibility = View.GONE
+    }
+}
 
 
 }
