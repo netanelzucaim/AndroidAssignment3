@@ -4,6 +4,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.idz.colman24class2.model.Student
 @Dao
 interface StudentDao {
@@ -15,4 +16,6 @@ interface StudentDao {
     fun insertStudents(vararg students: Student)
     @Delete
     fun delete(student: Student)
+    @Update
+    fun updateStudent(student: Student)
 }

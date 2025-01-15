@@ -49,4 +49,23 @@ fun getAllStudents(callback: StudentsCallback) {
             }
         }
     }
+    fun update(student: Student, callback: EmptyCallback) {
+        executor.execute {
+            database.studentDao().updateStudent(student)
+            Thread.sleep(4000)
+            mainHandler.post {
+                callback()
+            }
+        }
+    }
+    fun delete(student: Student, callback: EmptyCallback) {
+        executor.execute {
+            database.studentDao().delete(student)
+            Thread.sleep(4000)
+            mainHandler.post {
+                callback()
+            }
+        }
+    }
 }
+

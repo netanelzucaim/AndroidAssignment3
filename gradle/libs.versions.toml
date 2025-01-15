@@ -12,7 +12,7 @@ constraintlayout = "2.2.0"
 navigationFragmentKtx = "2.8.5"
 navigationSafeArgsGradlePlugin = "2.8.5"
 roomRuntimeVersion = "2.6.1"
-
+googleServices = "4.3.10"
 [libraries]
 androidx-navigation-safe-args-gradle-plugin = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigationSafeArgsGradlePlugin" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntimeVersion" }
@@ -33,3 +33,4 @@ room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRunti
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 androidx-navigation-safeargs = { id = "androidx.navigation.safeargs" }
+google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }

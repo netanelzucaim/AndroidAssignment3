@@ -72,9 +72,9 @@ private fun onSaveClicked(view: View) {
     val student = Student(
         name = binding?.nameEditText?.text?.toString() ?: "",
         id = binding?.idEditText?.text?.toString() ?: "",
-        isChecked = false,
-        phone = "0303",
-        address="ff"
+        isChecked = binding?.enabledCheckBox?.isChecked ?: false,
+        phone =  binding?.phoneEditText?.text?.toString() ?: "",
+        address= binding?.addressEditText?.text?.toString() ?: "",
     )
     binding?.progressBar?.visibility = View.VISIBLE
 
