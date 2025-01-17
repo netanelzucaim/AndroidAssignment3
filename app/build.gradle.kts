@@ -51,6 +51,8 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.room.runtime)
     kapt(libs.androidx.room.compiler)
+    implementation(libs.firebase.firestore)
+    implementation(platform(libs.firebase.bom))
     implementation(libs.androidx.room.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

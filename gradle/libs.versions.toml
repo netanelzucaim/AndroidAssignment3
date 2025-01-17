@@ -1,5 +1,6 @@
 [versions]
 agp = "8.7.1"
+firebaseBom = "33.7.0"
 kotlin = "1.9.24"
 coreKtx = "1.15.0"
 junit = "4.13.2"
@@ -12,7 +13,7 @@ constraintlayout = "2.2.0"
 navigationFragmentKtx = "2.8.5"
 navigationSafeArgsGradlePlugin = "2.8.5"
 roomRuntimeVersion = "2.6.1"
-googleServices = "4.3.10"
+googleServices = "4.3.8"
 [libraries]
 androidx-navigation-safe-args-gradle-plugin = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigationSafeArgsGradlePlugin" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntimeVersion" }
@@ -28,6 +29,8 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntimeVersion" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-firestore = { module = "com.google.firebase:firebase-firestore" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

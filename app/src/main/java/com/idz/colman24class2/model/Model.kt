@@ -16,56 +16,32 @@ class Model private constructor() {
     private val database: AppLocalDbRepository = AppLocalDb.database
     private val executor = Executors.newSingleThreadExecutor()
     private val mainHandler = HandlerCompat.createAsync(Looper.getMainLooper())
+
+    private val firebaseModel = FirebaseModel()
+
     companion object {
         val shared = Model()
     }
 
-//    init {
-//        // Populate the students list with Parcelable Student objects
-//        for (i in 0..20) {
-//            val student = Student(
-//                name = "Name $i",
-//                id = "Student ID: $i",
-//                phone = "Phone: $i",
-//                address = "Address: $i",
-//                isChecked = false
-//            )
-//            students.add(student)
-fun getAllStudents(callback: StudentsCallback) {
-    executor.execute {
-        val students = database.studentDao().getAllStudents()
-        Thread.sleep(4000)
-        mainHandler.post {
-            callback(students)
-        }
+    fun getAllStudents(callback: StudentsCallback) {
+        firebaseModel.getAllStudents(callback)
     }
-}
+
+
     fun add(student: Student, callback: EmptyCallback) {
-        executor.execute {
-            database.studentDao().insertStudents(student)
-            Thread.sleep(4000)
-            mainHandler.post {
-                callback()
-            }
-        }
+        firebaseModel.add(student, callback)
     }
-    fun update(student: Student, callback: EmptyCallback) {
-        executor.execute {
-            database.studentDao().updateStudent(student)
-            Thread.sleep(4000)
-            mainHandler.post {
-                callback()
-            }
-        }
-    }
+
     fun delete(student: Student, callback: EmptyCallback) {
-        executor.execute {
-            database.studentDao().delete(student)
-            Thread.sleep(4000)
-            mainHandler.post {
-                callback()
-            }
-        }
+        firebaseModel.delete(student, callback)
     }
-}
+
+    fun update(student: Student, callback: EmptyCallback) {
+        firebaseModel.update(student, callback)
+    }
+ }
+
+
+
+
 
