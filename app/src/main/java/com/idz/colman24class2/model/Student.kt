@@ -11,7 +11,8 @@ data class Student(
     val name: String,
     var phone: String,
     var address: String,
-    var isChecked: Boolean
+    var isChecked: Boolean,
+    val avatarUrl: String
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(
@@ -19,7 +20,9 @@ data class Student(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
-        parcel.readByte() != 0.toByte()
+        parcel.readByte() != 0.toByte(),
+        parcel.readString() ?: ""
+
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -28,6 +31,7 @@ data class Student(
         parcel.writeString(phone)
         parcel.writeString(address)
         parcel.writeByte(if (isChecked) 1 else 0)
+        parcel.writeString(avatarUrl)
     }
 
     override fun describeContents(): Int {
@@ -40,25 +44,24 @@ data class Student(
         const val NAME_KEY = "name"
         const val PHONE_KEY = "phone"
         const val ADDRESS_KEY = "address"
-//        const val AVATAR_URL_KEY = "avatarUrl"
         const val IS_CHECKED_KEY = "isChecked"
-
+        const val AVATAR_URL_KEY = "avatarUrl"
         // Create a Student instance from a Map
         fun fromJSON(json: Map<String, Any>): Student {
             val id = json[ID_KEY] as? String ?: ""
             val name = json[NAME_KEY] as? String ?: ""
             val phone = json[PHONE_KEY] as? String ?: ""
             val address = json[ADDRESS_KEY] as? String ?: ""
-//            val avatarUrl = json[AVATAR_URL_KEY] as? String ?: ""
             val isChecked = json[IS_CHECKED_KEY] as? Boolean ?: false
-
+            val avatarUrl = json[AVATAR_URL_KEY] as? String ?: ""
             // Creating the Student object
             return Student(
                 id = id,
                 name = name,
                 phone = phone,  // You may want to change how avatarUrl is used
                 address = address,  // Assuming address is empty in this case
-                isChecked = isChecked
+                isChecked = isChecked,
+                avatarUrl = avatarUrl
             )
         }
 
@@ -82,7 +85,7 @@ data class Student(
             NAME_KEY to name,
             PHONE_KEY to phone,
             ADDRESS_KEY to address,
-//            AVATAR_URL_KEY to phone,  // Assuming phone is used for avatarUrl here
-            IS_CHECKED_KEY to isChecked
+            IS_CHECKED_KEY to isChecked,
+            AVATAR_URL_KEY to avatarUrl
         )
 }

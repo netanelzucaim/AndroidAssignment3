@@ -1,5 +1,6 @@
 package com.idz.colman24class2
 
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,6 +12,8 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.TextView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.Navigation
 import com.idz.colman24class2.model.Model
 import com.idz.colman24class2.model.Student
@@ -18,15 +21,9 @@ import com.idz.colman24class2.databinding.FragmentAddStudentBinding
 
 
 class AddStudentFragment : Fragment() {
-//    var saveButton: Button? = null
-//    var cancelButton: Button? = null
-//    var nameEditText: EditText? = null
-//    var idEditText: EditText? = null
-//    var savedTextField: TextView? = null
-//    var phoneEditText: EditText? = null
-//    var addressEditText: EditText? = null
-//    var enabledCheckBox: CheckBox? = null
-private var binding: FragmentAddStudentBinding? = null
+    private var binding: FragmentAddStudentBinding? = null
+    private var cameraLauncher: ActivityResultLauncher<Void?>? = null
+    private var didSetProfileImage = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,14 +39,21 @@ private var binding: FragmentAddStudentBinding? = null
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-//        val view =  inflater.inflate(R.layout.fragment_add_student, container, false)
-//        setupView(view)
-//        saveButton?.setOnClickListener(::onSaveClicked)
-//        cancelButton?.setOnClickListener(::onCancelClick)
         binding = FragmentAddStudentBinding.inflate(inflater, container, false)
         binding?.cancelButton?.setOnClickListener(::onCancelClicked)
         binding?.saveButton?.setOnClickListener(::onSaveClicked)
+
+        cameraLauncher = registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
+            binding?.imageView?.setImageBitmap(bitmap)
+            didSetProfileImage = true
+
+        }
+
+        binding?.takePhotoButton?.setOnClickListener {
+            cameraLauncher?.launch(null)
+        }
+
+
         return binding?.root
 
     }
@@ -58,39 +62,34 @@ private var binding: FragmentAddStudentBinding? = null
         binding = null
     }
 
-//    private fun setupView(view: View?) {
-//        saveButton = view?.findViewById(R.id.add_student_save_button)
-//        cancelButton = view?.findViewById(R.id.add_student_cancel_button)
-//        nameEditText = view?.findViewById(R.id.add_student_name_edit_text)
-//        idEditText = view?.findViewById(R.id.add_student_id_edit_text)
-//        savedTextField = view?.findViewById(R.id.add_student_save_message_text_view)
-//        phoneEditText = view?.findViewById(R.id.add_student_phone_edit_text)
-//        addressEditText = view?.findViewById(R.id.add_student_address_edit_text)
-//        enabledCheckBox = view?.findViewById(R.id.add_student_enabled_check_box)
-//    }
 private fun onSaveClicked(view: View) {
     val student = Student(
         name = binding?.nameEditText?.text?.toString() ?: "",
         id = binding?.idEditText?.text?.toString() ?: "",
-        isChecked = binding?.enabledCheckBox?.isChecked ?: false,
         phone =  binding?.phoneEditText?.text?.toString() ?: "",
         address= binding?.addressEditText?.text?.toString() ?: "",
+        isChecked = binding?.enabledCheckBox?.isChecked ?: false,
+        avatarUrl = ""
     )
     binding?.progressBar?.visibility = View.VISIBLE
+    if (didSetProfileImage) {
+        binding?.imageView?.isDrawingCacheEnabled = true
+        binding?.imageView?.buildDrawingCache()
+        val bitmap = (binding?.imageView?.drawable as BitmapDrawable).bitmap
 
-    Model.shared.add(student) {
-        binding?.progressBar?.visibility = View.GONE
-        Navigation.findNavController(view).popBackStack()
+        Model.shared.add(student, bitmap, Model.Storage.CLOUDINARY) {
+            binding?.progressBar?.visibility = View.GONE
+            Navigation.findNavController(view).popBackStack()
+        }
+    } else {
+        Model.shared.add(student, null, Model.Storage.CLOUDINARY) {
+            binding?.progressBar?.visibility = View.GONE
+            Navigation.findNavController(view).popBackStack()
+        }
     }
+
 }
     private fun onCancelClicked(view: View) {
         Navigation.findNavController(view).popBackStack()
     }
-
-//    private fun onSaveClicked(view: View) {
-//        val student = Student(nameEditText?.text.toString(), idEditText?.text.toString(),phoneEditText?.text.toString(),addressEditText?.text.toString(),enabledCheckBox!!.isChecked )
-//        Model.shared.students.add(student)
-//        savedTextField?.text = "${nameEditText?.text} ${idEditText?.text} is saved...!!!"
-//    }
-
 }

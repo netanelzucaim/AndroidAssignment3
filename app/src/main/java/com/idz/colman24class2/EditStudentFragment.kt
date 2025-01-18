@@ -11,11 +11,14 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.TextView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.idz.colman24class2.databinding.FragmentEditStudentBinding
 import com.idz.colman24class2.model.Model
 import com.idz.colman24class2.model.Student
+import com.squareup.picasso.Picasso
 
 class EditStudentFragment : Fragment() {
     private var binding: FragmentEditStudentBinding? = null
@@ -31,15 +34,13 @@ class EditStudentFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-//        val view = inflater.inflate(R.layout.fragment_edit_student, container, false)
-
-//        return view
         binding = FragmentEditStudentBinding.inflate(inflater, container, false)
         binding?.cancelButton?.setOnClickListener(::onCancelClicked)
         binding?.saveButton?.setOnClickListener(::onSaveClicked)
         binding?.deleteButton?.setOnClickListener(::onDeleteClicked)
         setupView(binding?.root)
+
+
         return binding?.root
 
     }
@@ -76,6 +77,14 @@ class EditStudentFragment : Fragment() {
         binding?.phoneEditText?.setText(student?.phone)
         binding?.addressEditText?.setText(student?.address)
         binding?.enabledCheckBox?.isChecked = student?.isChecked!!
+        student?.avatarUrl?.let {
+            if (it.isNotBlank()) {
+                Picasso.get()
+                    .load(it)
+                    .placeholder(R.drawable.avatar)
+                    .into(binding?.imageView)
+            }
+        }
     }
 
     private fun setStudent() {
@@ -85,8 +94,10 @@ class EditStudentFragment : Fragment() {
             id = binding?.idEditText?.text.toString(),
             phone = binding?.phoneEditText?.text.toString(),
             address = binding?.addressEditText?.text.toString(),
-            isChecked = binding?.enabledCheckBox?.isChecked ?: false
+            isChecked = binding?.enabledCheckBox?.isChecked ?: false,
+            avatarUrl =  student?.avatarUrl!!
         )
+
     }
 
 }

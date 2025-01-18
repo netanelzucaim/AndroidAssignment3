@@ -13,6 +13,7 @@ import androidx.navigation.Navigation
 import com.idz.colman24class2.databinding.FragmentAddStudentBinding
 import com.idz.colman24class2.model.Student
 import com.idz.colman24class2.databinding.FragmentStudentDetailsBinding
+import com.squareup.picasso.Picasso
 
 class StudentDetailsFragment : Fragment() {
 
@@ -33,10 +34,7 @@ class StudentDetailsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        // Inflate the layout for this fragment
-//        val view =  inflater.inflate(R.layout.fragment_student_details, container, false)
-//        setupView(view)
-//        return view
+
         binding = FragmentStudentDetailsBinding.inflate(inflater, container, false)
         setupView(binding?.root)
         return binding?.root
@@ -53,6 +51,14 @@ class StudentDetailsFragment : Fragment() {
         binding?.phoneTextView?.text = student!!.phone
         binding?.addressTextView?.text = student!!.address
         binding?.enabledCheckBox?.isChecked = student!!.isChecked
+        student?.avatarUrl?.let {
+            if (it.isNotBlank()) {
+                Picasso.get()
+                    .load(it)
+                    .placeholder(R.drawable.avatar)
+                    .into(binding?.imageView)
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -7,6 +7,8 @@ import com.idz.colman24class2.R
 import com.idz.colman24class2.model.Student
 
 import  com.idz.colman24class2.OnItemClickListener
+import com.idz.colman24class2.databinding.StudentListRowBinding
+
 //class StudentsRecyclerAdapter(private val students: MutableList<Student>?): RecyclerView.Adapter<StudentViewHolder>() {
 class StudentsRecyclerAdapter(private var students: List<Student>?): RecyclerView.Adapter<StudentViewHolder>() {
 
@@ -18,12 +20,10 @@ class StudentsRecyclerAdapter(private var students: List<Student>?): RecyclerVie
         override fun getItemCount(): Int = students?.size ?: 0
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StudentViewHolder {
-            val itemView = LayoutInflater.from(parent.context).inflate(
-                R.layout.student_list_row,
-                parent,
-                false
-            )
-            return StudentViewHolder(itemView, listener)
+            val inflaor = LayoutInflater.from(parent.context)
+            val binding = StudentListRowBinding.inflate(inflaor, parent, false)
+
+            return StudentViewHolder(binding, listener)
         }
 
         override fun onBindViewHolder(holder: StudentViewHolder, position: Int) {
